@@ -162,6 +162,8 @@ def evaluate(
     if use_wandb:
         import wandb
 
+    writer: SummaryWriter = kwargs.get("writer", None)
+
     model.eval()
     criterion.eval()
     coco_evaluator.cleanup()
@@ -224,6 +226,12 @@ def evaluate(
     # Conf matrix, F1, Precision, Recall, box IoU
     metrics = Validator(gt, preds).compute_metrics()
     print("Metrics:", metrics)
+
+    if writer and dist_utils.is_main_process():
+        for k, v in metrics.items():
+            if k in ["f1", "precision", "recall", "iou"]:
+                writer.add_scalar(f"Metrics/{k}", v, epoch)
+
     if use_wandb:
         metrics = {f"metrics/{k}": v for k, v in metrics.items()}
         metrics["epoch"] = epoch
@@ -239,6 +247,27 @@ def evaluate(
     if coco_evaluator is not None:
         coco_evaluator.accumulate()
         coco_evaluator.summarize()
+
+        if writer and dist_utils.is_main_process() and "bbox" in iou_types:
+            coco_stats = coco_evaluator.coco_eval["bbox"].stats
+            writer.add_scalar("Metrics/mAP", coco_stats[0], epoch)
+            writer.add_scalar("Metrics/mAP50", coco_stats[1], epoch)
+            metric_names = [
+                "AP",
+                "AP50",
+                "AP75",
+                "APs",
+                "APm",
+                "APl",
+                "AR1",
+                "AR10",
+                "AR100",
+                "ARs",
+                "ARm",
+                "ARl",
+            ]
+            for i, name in enumerate(metric_names):
+                writer.add_scalar(f"COCO/{name}", coco_stats[i], epoch)
 
     stats = {}
     # stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}

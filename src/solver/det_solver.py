@@ -50,7 +50,8 @@ class DetSolver(BaseSolver):
                 self.evaluator,
                 self.device,
                 self.last_epoch,
-                self.use_wandb
+                self.use_wandb,
+                writer=self.writer,
             )
             for k in test_stats:
                 best_stat["epoch"] = self.last_epoch
@@ -114,15 +115,12 @@ class DetSolver(BaseSolver):
                 self.device,
                 epoch,
                 self.use_wandb,
+                writer=self.writer,
                 output_dir=self.output_dir,
             )
 
             # TODO
             for k in test_stats:
-                if self.writer and dist_utils.is_main_process():
-                    for i, v in enumerate(test_stats[k]):
-                        self.writer.add_scalar(f"Test/{k}_{i}".format(k), v, epoch)
-
                 if k in best_stat:
                     best_stat["epoch"] = (
                         epoch if test_stats[k][0] > best_stat[k] else best_stat["epoch"]
@@ -218,6 +216,7 @@ class DetSolver(BaseSolver):
             self.device,
             epoch=-1,
             use_wandb=False,
+            writer=self.writer,
         )
 
         if self.output_dir:

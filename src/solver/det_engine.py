@@ -195,8 +195,8 @@ def evaluate(
         #     outputs = model(samples)
 
         # TODO (lyuwenyu), fix dataset converted using `convert_to_coco_api`?
-        orig_target_sizes = torch.stack([t["orig_size"] for t in targets], dim=0)
-        # orig_target_sizes = torch.tensor([[samples.shape[-1], samples.shape[-2]]], device=samples.device)
+        # orig_target_sizes = torch.stack([t["size"] for t in targets], dim=0)
+        orig_target_sizes = torch.tensor([[samples.shape[-1], samples.shape[-2]]], device=samples.device)
 
         results = postprocessor(outputs, orig_target_sizes)
 
@@ -212,11 +212,7 @@ def evaluate(
         for idx, (target, result) in enumerate(zip(targets, results)):
             gt.append(
                 {
-                    "boxes": scale_boxes(  # from model input size to original img size
-                        target["boxes"],
-                        (target["orig_size"][1], target["orig_size"][0]),
-                        (samples[idx].shape[-1], samples[idx].shape[-2]),
-                    ),
+                    "boxes": target["boxes"],
                     "labels": target["labels"],
                 }
             )

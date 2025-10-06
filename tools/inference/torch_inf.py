@@ -38,12 +38,13 @@ def draw(images, labels, boxes, scores, thrh=0.4):
 
 def process_image(model, device, file_path):
     im_pil = Image.open(file_path).convert("RGB")
+    im_pil = im_pil.crop((0, 0, 1280, 1280))
     w, h = im_pil.size
     orig_size = torch.tensor([[w, h]]).to(device)
 
     transforms = T.Compose(
         [
-            T.Resize((640, 640)),
+            # T.Resize((1280, 1280)),
             T.ToTensor(),
         ]
     )

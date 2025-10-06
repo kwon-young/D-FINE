@@ -110,6 +110,25 @@ class RandomIoUCrop(T.RandomIoUCrop):
 
 
 @register()
+class TopLeftCrop(T.Transform):
+
+    def __init__(self, size,) -> None:
+        super().__init__()
+
+        self.size = size
+
+    def _get_params(self, flat_inputs: List[Any]) -> Dict[str, Any]:
+        return {'height': self.size[0], 'width': self.size[1]}
+
+    def _transform(self, inpt: Any, params: Dict[str, Any]) -> Any:
+        inpt = self._call_kernel(
+            F.crop, inpt, top=0, left=0, height=params["height"], width=params["width"]
+        )
+
+        return inpt
+
+
+@register()
 class ConvertBoxes(T.Transform):
     _transformed_types = (BoundingBoxes,)
 

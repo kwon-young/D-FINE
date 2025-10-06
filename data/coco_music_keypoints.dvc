@@ -1,0 +1,6 @@
+outs:
+- md5: efab8ec0bce5fc2f501a013f0f1f28ba.dir
+  size: 4882386
+  nfiles: 24
+  hash: md5
+  path: coco_music_keypoints

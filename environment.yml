@@ -1,0 +1,17 @@
+dependencies:
+  - python
+  - pytorch=2.4
+  - torchvision
+  - faster-coco-eval
+  - tensorboard
+  - scipy
+  - transformers
+  - loguru
+  - dvc
+  - kaggle
+  - dvclive
+  - dvc-s3
+  - matplotlib
+  - pip
+  - pip:
+    - calflops

@@ -1,0 +1,13 @@
+md5: 3c2962a95a3b5d9adccf04dd7f43a6c2
+frozen: true
+deps:
+- checksum: '"0x8DCFE8AD5D93292"'
+  size: 15489558
+  hash: md5
+  path: 
+    https://github.com/Peterande/storage/releases/download/dfinev1.0/dfine_n_coco.pth
+outs:
+- md5: 3a83b9cde1f848152eac2fc8da00628b
+  size: 15489558
+  hash: md5
+  path: dfine_n_coco.pth

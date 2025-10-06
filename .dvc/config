@@ -1,0 +1,7 @@
+[core]
+    analytics = false
+    remote = blackblaze
+['remote "blackblaze"']
+    url = s3://d-fine-dvc
+    endpointurl = https://s3.eu-central-003.backblazeb2.com
+    profile = blackblaze

@@ -216,11 +216,7 @@ def evaluate(
                     "labels": target["labels"],
                 }
             )
-            labels = (
-                torch.tensor([mscoco_category2label[int(x.item())] for x in result["labels"].flatten()])
-                .to(result["labels"].device)
-                .reshape(result["labels"].shape)
-            ) if postprocessor.remap_mscoco_category else result["labels"]
+            labels = result["labels"]
             preds.append(
                 {"boxes": result["boxes"], "labels": labels, "scores": result["scores"]}
             )

@@ -48,6 +48,11 @@ class CocoDetection(FasterCocoDetection, DetDataset):
 
     def load_item(self, idx):
         image, target = super(FasterCocoDetection, self).__getitem__(idx)
+
+        if not self.remap_mscoco_category:
+            for ann in target:
+                ann["category_id"] -= 1
+
         image_id = self.ids[idx]
         image_path = os.path.join(self.img_folder, self.coco.loadImgs(image_id)[0]["file_name"])
         target = {"image_id": image_id, "image_path": image_path, "annotations": target}

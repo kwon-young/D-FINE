@@ -16,9 +16,9 @@ stages:
       size: 15489558
     - path: src
       hash: md5
-      md5: 3bd2b519b420754f67726fc10dfdf9ad.dir
-      size: 1265747
-      nfiles: 214
+      md5: 910a6d0631f2ebbcdfc7ca5da3b5180b.dir
+      size: 880417
+      nfiles: 145
     - path: train.py
       hash: md5
       md5: c741805d56a51be5f01830ca5cc2efb1
@@ -127,7 +127,7 @@ stages:
           weight_decay: 0.0001
         output_dir: ./output/dfine_hgnetv2_n_coco_music_keypoints
         train_dataloader:
-          total_batch_size: 1
+          total_batch_size: 2
           dataset:
             transforms:
               policy:
@@ -268,3 +268,9 @@ stages:
         postprocessor: DFINEPostProcessor
         task: detection
         use_focal_loss: true
+    outs:
+    - path: ./output/dfine_hgnetv2_n_coco_music_keypoints
+      hash: md5
+      md5: 1646ca38bb99e035f63fc2e73acb8fe2.dir
+      size: 881225727
+      nfiles: 24

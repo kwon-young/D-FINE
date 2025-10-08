@@ -2,24 +2,26 @@ task: detection
 
 evaluator:
   type: CocoEvaluator
-  iou_types: ['bbox', ]
+  iou_types:
+  - bbox
 
 num_classes: 21 # your dataset classes
-remap_mscoco_category: False
+remap_mscoco_category: false
 
 train_dataloader:
   type: DataLoader
   dataset:
     type: CocoDetection
     img_folder: data/coco_music_keypoints/train2017/
-    ann_file: data/coco_music_keypoints/annotations/music_keypoints_train2017.json
-    return_masks: False
+    ann_file: 
+      data/coco_music_keypoints/annotations/music_keypoints_train2017.json
+    return_masks: false
     transforms:
       type: Compose
-      ops: ~
-  shuffle: True
+      ops:
+  shuffle: true
   num_workers: 4
-  drop_last: True
+  drop_last: false
   collate_fn:
     type: BatchImageCollateFunction
 
@@ -29,13 +31,14 @@ val_dataloader:
   dataset:
     type: CocoDetection
     img_folder: data/coco_music_keypoints/train2017/
-    ann_file: data/coco_music_keypoints/annotations/music_keypoints_train2017.json
-    return_masks: False
+    ann_file: 
+      data/coco_music_keypoints/annotations/music_keypoints_train2017.json
+    return_masks: false
     transforms:
       type: Compose
-      ops: ~
-  shuffle: False
+      ops:
+  shuffle: false
   num_workers: 4
-  drop_last: False
+  drop_last: false
   collate_fn:
     type: BatchImageCollateFunction

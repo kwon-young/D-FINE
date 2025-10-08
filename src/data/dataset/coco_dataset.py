@@ -11,6 +11,7 @@ import torch
 import torchvision
 import os
 from PIL import Image
+from functools import lru_cache
 
 from ...core import register
 from .._misc import convert_to_tv_tensor
@@ -46,6 +47,7 @@ class CocoDetection(FasterCocoDetection, DetDataset):
             img, target, _ = self._transforms(img, target, self)
         return img, target
 
+    @lru_cache(maxsize=None)
     def load_item(self, idx):
         image, target = super(FasterCocoDetection, self).__getitem__(idx)
 
